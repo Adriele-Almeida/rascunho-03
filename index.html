@@ -1,1 +1,318 @@
-rascunho
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Kong For Men — Tabela de Preços</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  body {
+    background: #111;
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(60,50,30,0.4) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(40,35,20,0.3) 0%, transparent 50%);
+    font-family: 'Montserrat', sans-serif;
+    max-width: 420px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding-bottom: 210px;
+  }
+
+  .page-bg {
+    background: #0e0e0e;
+    padding: 28px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .logo-ring {
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    border: 2.5px solid #F5A623;
+    background: #0e0e0e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+  }
+  .logo-svg { display:flex; flex-direction:column; align-items:center; padding:10px; }
+  .logo-kong { font-family:'Bebas Neue',sans-serif; font-size:32px; color:#F5A623; letter-spacing:4px; line-height:1; }
+  .logo-face { font-size:32px; line-height:1; margin:1px 0; }
+  .logo-formen { font-family:'Bebas Neue',sans-serif; font-size:22px; color:#F5A623; letter-spacing:3px; line-height:1; }
+
+  .page-title { font-family:'Montserrat',sans-serif; font-size:21px; font-weight:800; color:#fff; letter-spacing:1.5px; text-transform:uppercase; text-align:center; margin-bottom:8px; }
+  .title-line { width:100%; max-width:340px; display:flex; align-items:center; gap:6px; }
+  .title-line::before,.title-line::after { content:''; flex:1; height:1.5px; background:#F5A623; }
+  .title-dot { color:#F5A623; font-size:8px; }
+
+  .table-outer { margin:16px 12px 0; border:1.5px solid #F5A623; border-radius:10px; overflow:hidden; }
+  .t-head { display:grid; grid-template-columns:1fr 108px 115px; background:#1a1a1a; }
+  .th { font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; color:#F5A623; padding:11px 8px; line-height:1.2; }
+  .th:nth-child(2) { text-align:center; border-left:1px solid #444; }
+  .th:nth-child(3) { text-align:center; border-left:1px solid #444; }
+
+  .t-row { display:grid; grid-template-columns:1fr 108px 115px; align-items:stretch; border-top:1px solid #bbb; }
+  .t-row:nth-child(odd)  { background:#e8e2d4; }
+  .t-row:nth-child(even) { background:#d9d3c6; }
+
+  .td-name { font-size:13px; font-weight:500; color:#111; padding:11px 10px; display:flex; align-items:center; line-height:1.3; }
+
+  .td-price {
+    border-left:1px solid #bbb;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:6px 4px; cursor:pointer; min-height:48px;
+    transition:background 0.12s; user-select:none; -webkit-user-select:none;
+  }
+  .td-price:active { background:rgba(245,166,35,0.18); }
+  .price-num { font-family:'Montserrat',sans-serif; font-size:14px; font-weight:600; color:#111; }
+  .tap-hint { font-size:9px; color:#888; margin-top:1px; }
+
+  .qty-row { display:none; align-items:center; gap:5px; margin-top:3px; }
+  .qty-row.show { display:flex; }
+  .q-btn { background:#333; border:none; border-radius:5px; width:22px; height:22px; color:#fff; font-size:15px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1; flex-shrink:0; }
+  .q-btn:active { background:#F5A623; color:#000; }
+  .q-num { font-family:'Montserrat',sans-serif; font-size:14px; font-weight:700; color:#F5A623; min-width:16px; text-align:center; background:#1a1a1a; border-radius:4px; padding:1px 4px; }
+
+  .contact-box { margin:14px 12px 0; border:1.5px solid #F5A623; border-radius:10px; background:#1a1a1a; padding:14px 16px; display:flex; flex-direction:column; gap:10px; }
+  .contact-row { display:flex; align-items:center; gap:12px; }
+  .c-icon { width:36px; height:36px; border-radius:50%; border:2px solid #F5A623; background:#1a1a1a; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; color:#F5A623; }
+  .c-text { font-size:14px; font-weight:600; color:#fff; }
+
+  .footer { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:420px; background:#0e0e0e; border-top:2px solid #F5A623; padding:10px 14px 16px; z-index:200; }
+  .f-totals { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+  .f-left { display:flex; flex-direction:column; }
+  .f-label { font-size:9px; color:#666; letter-spacing:2px; text-transform:uppercase; }
+  .f-items { font-size:11px; color:#999; margin-top:2px; }
+  .f-right { text-align:right; }
+  .f-breakdown { font-size:10px; color:#888; margin-bottom:1px; }
+  .f-total { font-family:'Bebas Neue',sans-serif; font-size:30px; color:#F5A623; line-height:1; letter-spacing:1px; }
+  .f-note { background:#1a1a1a; border:1px solid #2a2a2a; border-radius:8px; padding:8px 10px; width:100%; color:#ddd; font-family:'Montserrat',sans-serif; font-size:12px; resize:none; outline:none; margin-bottom:8px; display:block; }
+  .f-note:focus { border-color:#F5A623; }
+
+  /* BOTÃO — tag <a> real para evitar popup do iOS */
+  .wa-btn {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    border: none;
+    border-radius: 12px;
+    width: 100%;
+    padding: 15px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 18px rgba(37,211,102,0.25);
+    text-decoration: none;
+    transition: opacity .15s, transform .15s;
+  }
+  .wa-btn:active { transform:scale(0.98); }
+  .wa-btn.disabled { opacity:0.3; pointer-events:none; }
+  .wa-btn svg { width:22px; height:22px; fill:#fff; flex-shrink:0; }
+
+  .toast { position:fixed; top:14px; left:50%; transform:translateX(-50%) translateY(-6px); background:#F5A623; color:#000; font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; padding:8px 18px; border-radius:30px; z-index:500; opacity:0; transition:all .22s; white-space:nowrap; pointer-events:none; }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="page-bg">
+  <div class="logo-ring">
+    <div class="logo-svg">
+      <div class="logo-kong">KONG</div>
+      <div class="logo-face">🦍</div>
+      <div class="logo-formen">FOR MEN</div>
+    </div>
+  </div>
+  <div class="page-title">Tabela de Preços Oficial</div>
+  <div class="title-line"><span class="title-dot">◆</span></div>
+</div>
+
+<div class="table-outer">
+  <div class="t-head">
+    <div class="th">Produto</div>
+    <div class="th">Atacado (R$)</div>
+    <div class="th">Preço Final (R$)</div>
+  </div>
+  <div id="tbody"></div>
+</div>
+
+<div class="contact-box">
+  <div class="contact-row"><div class="c-icon">📞</div><div class="c-text">(11) 94797-0505</div></div>
+  <div class="contact-row"><div class="c-icon">✉️</div><div class="c-text">kongformen.spdistribuidora@gmail.com</div></div>
+  <div class="contact-row"><div class="c-icon">📷</div><div class="c-text">kongformen</div></div>
+</div>
+
+<div class="footer">
+  <div class="f-totals">
+    <div class="f-left">
+      <span class="f-label">Total do Pedido</span>
+      <span class="f-items" id="fItems">Nenhum item selecionado</span>
+    </div>
+    <div class="f-right">
+      <div class="f-breakdown" id="fBreak"></div>
+      <div class="f-total" id="fTotal">R$ 0,00</div>
+    </div>
+  </div>
+  <textarea class="f-note" id="note" rows="2" placeholder="Observações: entrega, pagamento, dúvidas..."></textarea>
+
+  <!-- <a> real — sem window.open, sem popup no iOS -->
+  <a id="wabtn" class="wa-btn disabled" href="#" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Finalizar Pedido
+  </a>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const WA = "5511947970505";
+
+const prods = [
+  { id:1,  name:"Cera Matte 150g",               a:13.90, f:25.00 },
+  { id:2,  name:"Cera Caramelo 150g",             a:13.90, f:25.00 },
+  { id:3,  name:"Cera Caramelo 80g",              a: 9.40, f:19.00 },
+  { id:4,  name:"Cera Black 150g",                a:13.90, f:25.00 },
+  { id:5,  name:"Cera Teia 150g",                 a:17.00, f:28.00 },
+  { id:6,  name:"Cera Premium 150g",              a:13.90, f:25.00 },
+  { id:7,  name:"Cera Premium 80g",               a: 9.40, f:19.00 },
+  { id:8,  name:"Blend Selvagem 100ml",           a:34.90, f:65.00 },
+  { id:9,  name:"Shampoo de Barba 250g",          a:14.90, f:25.00 },
+  { id:10, name:"Balm de Barba 120ml",            a:21.90, f:35.00 },
+  { id:11, name:"Óleo de Barba 30ml",             a:19.90, f:35.00 },
+  { id:12, name:"Gel Cera Gorila Ultra Fix 300g", a:11.90, f:20.00 },
+  { id:13, name:"Shaving Gel 500ml",              a:29.90, f:40.00 },
+  { id:14, name:"Creme Esfoliante 250g",          a:14.90, f:36.00 },
+  { id:15, name:"Creme Pós Barba 250g",           a:14.90, f:36.00 },
+  { id:16, name:"Loção Pós Barba 240ml",          a:16.90, f:23.90 },
+];
+
+const qty = {};
+prods.forEach(p => qty[p.id] = { a:0, f:0 });
+
+function fmt(v) { return v.toFixed(2).replace(".",","); }
+
+function buildMsg() {
+  const lines = [];
+  let tA=0, tF=0, nA=0, nF=0;
+  prods.forEach(p => {
+    if (qty[p.id].a > 0) {
+      const sub = p.a * qty[p.id].a;
+      lines.push(`*${p.name}* - Atacado x${qty[p.id].a} = R$${fmt(sub)}`);
+      tA += sub; nA += qty[p.id].a;
+    }
+    if (qty[p.id].f > 0) {
+      const sub = p.f * qty[p.id].f;
+      lines.push(`*${p.name}* - Varejo x${qty[p.id].f} = R$${fmt(sub)}`);
+      tF += sub; nF += qty[p.id].f;
+    }
+  });
+  return { lines, tA, tF, nA, nF };
+}
+
+function updateLink() {
+  const { lines, tA, tF, nA, nF } = buildMsg();
+  const btn = document.getElementById("wabtn");
+  const note = document.getElementById("note").value.trim();
+
+  if (lines.length === 0) {
+    btn.classList.add("disabled");
+    btn.href = "#";
+    return;
+  }
+
+  const d = new Date();
+  const dt = d.toLocaleDateString("pt-BR") + " " + d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+
+  let msg = `🦍 *KONG FOR MEN - PEDIDO*\n${dt}\n\n`;
+  msg += lines.join("\n") + "\n\n";
+  if (nA>0) msg += `Atacado (${nA}un): R$${fmt(tA)}\n`;
+  if (nF>0) msg += `Varejo (${nF}un): R$${fmt(tF)}\n`;
+  msg += `*TOTAL: R$${fmt(tA+tF)}*`;
+  if (note) msg += `\n\nObs: ${note}`;
+
+  btn.href = `https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
+  btn.classList.remove("disabled");
+}
+
+function render() {
+  const rows = prods.map(p => {
+    const qa = qty[p.id].a, qf = qty[p.id].f;
+    return `
+    <div class="t-row">
+      <div class="td-name">${p.name}</div>
+      <div class="td-price" onclick="tap(${p.id},'a')">
+        <span class="price-num">${fmt(p.a)}</span>
+        <div class="qty-row ${qa>0?'show':''}" >
+          <button class="q-btn" onclick="event.stopPropagation();dec(${p.id},'a')">−</button>
+          <span class="q-num">${qa}</span>
+          <button class="q-btn" onclick="event.stopPropagation();inc(${p.id},'a')">+</button>
+        </div>
+        ${qa===0?'<span class="tap-hint">toque p/ add</span>':''}
+      </div>
+      <div class="td-price" onclick="tap(${p.id},'f')">
+        <span class="price-num">${fmt(p.f)}</span>
+        <div class="qty-row ${qf>0?'show':''}">
+          <button class="q-btn" onclick="event.stopPropagation();dec(${p.id},'f')">−</button>
+          <span class="q-num">${qf}</span>
+          <button class="q-btn" onclick="event.stopPropagation();inc(${p.id},'f')">+</button>
+        </div>
+        ${qf===0?'<span class="tap-hint">toque p/ add</span>':''}
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById("tbody").innerHTML = rows;
+  updateFooter();
+  updateLink();
+}
+
+function tap(id, type) {
+  qty[id][type]++;
+  const p = prods.find(x=>x.id===id);
+  showToast(`✓ ${p.name} (${type==='a'?'Atacado':'Varejo'})`);
+  render();
+}
+function inc(id, type) { qty[id][type]++; render(); }
+function dec(id, type) { qty[id][type] = Math.max(0, qty[id][type]-1); render(); }
+
+function updateFooter() {
+  let tA=0, tF=0, nA=0, nF=0;
+  prods.forEach(p => {
+    tA += p.a * qty[p.id].a; nA += qty[p.id].a;
+    tF += p.f * qty[p.id].f; nF += qty[p.id].f;
+  });
+  const grand = tA+tF, total = nA+nF;
+  document.getElementById("fTotal").textContent = "R$ " + fmt(grand);
+  document.getElementById("fItems").textContent = total > 0
+    ? `${total} unidade${total>1?'s':''} selecionada${total>1?'s':''}`
+    : "Nenhum item selecionado";
+  const parts = [];
+  if (nA>0) parts.push(`Atacado: R$${fmt(tA)}`);
+  if (nF>0) parts.push(`Varejo: R$${fmt(tF)}`);
+  document.getElementById("fBreak").textContent = parts.join("  ·  ");
+}
+
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(t._t);
+  t._t = setTimeout(()=>t.classList.remove("show"), 1700);
+}
+
+// Atualiza o link também quando digita observação
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("note").addEventListener("input", updateLink);
+});
+
+render();
+</script>
+</body>
+</html>
